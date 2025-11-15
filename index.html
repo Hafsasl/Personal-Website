@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hafsa | Creative Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
     
@@ -176,49 +177,6 @@
       animation: fadeInUp 1s ease-out 0.4s backwards;
     }
     
-    .cta-buttons {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeInUp 1s ease-out 0.6s backwards;
-    }
-    
-    .btn {
-      padding: 15px 40px;
-      border: none;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-decoration: none;
-      display: inline-block;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: var(--dark);
-      box-shadow: 0 10px 30px rgba(0, 245, 255, 0.3);
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(0, 245, 255, 0.5);
-    }
-    
-    .btn-secondary {
-      background: transparent;
-      color: var(--light);
-      border: 2px solid var(--primary);
-    }
-    
-    .btn-secondary:hover {
-      background: var(--primary);
-      color: var(--dark);
-      transform: translateY(-3px);
-    }
-    
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -333,110 +291,105 @@
     }
     
     /* Projects Section */
-    .projects-placeholder {
+    .heading {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       text-align: center;
-      padding: 80px 40px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 2px dashed rgba(0, 245, 255, 0.3);
-      border-radius: 20px;
-      transition: all 0.3s;
     }
     
-    .projects-placeholder:hover {
-      border-color: var(--primary);
-      background: rgba(255, 255, 255, 0.05);
-      transform: translateY(-5px);
+    .heading span {
+      background: linear-gradient(135deg, var(--secondary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     
-    .placeholder-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    
-    .projects-placeholder h3 {
-      font-size: 1.8rem;
-      color: var(--primary);
-      margin-bottom: 15px;
-    }
-    
-    .projects-placeholder p {
-      color: rgba(240, 244, 248, 0.6);
-      font-size: 1.1rem;
-    }
-    
-    .projects-grid {
+    .portfolio-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 30px;
       margin-top: 50px;
     }
     
-    .project-card {
+    .portfolio-box {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 30px;
       transition: all 0.3s;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
+      height: 300px;
     }
     
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    
-    .project-card:hover::before {
-      opacity: 0.1;
-    }
-    
-    .project-card:hover {
+    .portfolio-box:hover {
       transform: translateY(-10px);
       border-color: var(--primary);
       box-shadow: 0 20px 60px rgba(0, 245, 255, 0.2);
     }
     
-    .project-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: var(--primary);
-      position: relative;
+    .portfolio-img,
+    .portfolio-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
     }
     
-    .project-card p {
-      color: rgba(240, 244, 248, 0.7);
-      line-height: 1.6;
-      margin-bottom: 20px;
-      position: relative;
+    .portfolio-box:hover .portfolio-img,
+    .portfolio-box:hover .portfolio-video {
+      transform: scale(1.1);
     }
     
-    .project-tags {
+    .portfolio-layer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(10, 14, 39, 0.95), transparent);
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      position: relative;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 25px;
+      transform: translateY(100%);
+      transition: transform 0.4s;
     }
     
-    .tag {
-      padding: 5px 12px;
-      background: rgba(131, 56, 236, 0.2);
-      border-radius: 15px;
-      font-size: 0.8rem;
-      color: var(--accent);
+    .portfolio-box:hover .portfolio-layer {
+      transform: translateY(0);
+    }
+    
+    .portfolio-layer h4 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .portfolio-layer p {
+      color: var(--light);
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+    
+    .portfolio-layer a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 50%;
+      color: var(--dark);
+      font-size: 1.5rem;
+      transition: all 0.3s;
+    }
+    
+    .portfolio-layer a:hover {
+      background: var(--secondary);
+      transform: scale(1.1);
     }
     
     /* Contact Section */
@@ -484,74 +437,6 @@
       color: var(--primary);
     }
     
-    .social-links {
-      display: flex;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    
-    .social-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: var(--light);
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-    
-    .social-btn:hover {
-      background: var(--primary);
-      color: var(--dark);
-      transform: translateY(-5px);
-      border-color: var(--primary);
-    }
-    
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    
-    .form-group label {
-      color: var(--primary);
-      font-weight: 500;
-    }
-    
-    .form-group input,
-    .form-group textarea {
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: var(--light);
-      font-family: 'Poppins', sans-serif;
-      transition: all 0.3s;
-    }
-    
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: rgba(255, 255, 255, 0.08);
-    }
-    
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-    
     /* Footer */
     footer {
       text-align: center;
@@ -571,26 +456,16 @@
         display: none;
       }
       
-      .about-content,
-      .contact-content {
+      .about-content {
         grid-template-columns: 1fr;
       }
       
-      .projects-grid {
+      .portfolio-container {
         grid-template-columns: 1fr;
       }
       
       section {
         padding: 60px 20px;
-      }
-      
-      .cta-buttons {
-        flex-direction: column;
-        width: 100%;
-      }
-      
-      .btn {
-        width: 100%;
       }
     }
     
@@ -655,15 +530,77 @@
   </section>
   
   <section id="projects" class="fade-in">
-    <h2 class="section-title">Latest Projects</h2>
-    <p class="section-subtitle">My recent work will appear here</p>
-    <div class="projects-placeholder">
-      <div class="placeholder-icon">🚀</div>
-      <h3>Projects Coming Soon</h3>
-      <p>This space is ready for the amazing projects I'll be working on with my professors.</p>
+    <h2 class="heading">Latest <span>Blender Projects</span></h2>
+
+    <div class="portfolio-container">
+
+      <!-- Ocean Scene Image -->
+      <div class="portfolio-box">
+        <img src="https://via.placeholder.com/400x300/0a0e27/00f5ff?text=Ocean+Scene" alt="Blender Project Preview" class="portfolio-img">
+        <div class="portfolio-layer">
+          <h4>3D Ocean Scene</h4>
+          <p>A stunning ocean animation made with Blender.</p>
+          <a href="#" onclick="alert('Link to full image'); return false;"><i class="bx bx-link-external"></i></a>
+        </div>
+      </div>
+
+      <!-- Video Project -->
+      <div class="portfolio-box">
+        <img src="https://via.placeholder.com/400x300/0a0e27/ff006e?text=Ocean+Video" alt="Ocean Video" class="portfolio-img">
+        <div class="portfolio-layer">
+          <h4>Ocean Animation Video</h4>
+          <p>Rendered in Blender with realistic water and lighting.</p>
+          <a href="#" onclick="alert('Link to video'); return false;"><i class="bx bx-play"></i></a>
+        </div>
+      </div>
+
+      <!-- Table Project -->
+      <div class="portfolio-box">
+        <img src="https://via.placeholder.com/400x300/0a0e27/8338ec?text=3D+Table" alt="Blender Table Preview" class="portfolio-img">
+        <div class="portfolio-layer">
+          <h4>3D Table</h4>
+          <p>A stunning 3D table made with Blender.</p>
+          <a href="#" onclick="alert('Link to table image'); return false;"><i class="bx bx-link-external"></i></a>
+        </div>
+      </div>
+
+      <!-- University Scene -->
+      <div class="portfolio-box">
+        <img src="https://via.placeholder.com/400x300/0a0e27/00f5ff?text=University+Scene" alt="Blender UNI Project Preview" class="portfolio-img">
+        <div class="portfolio-layer">
+          <h4>3D University Scene</h4>
+          <p>A stunning university scene made with Blender.</p>
+          <a href="#" onclick="alert('Link to uni image'); return false;"><i class="bx bx-link-external"></i></a>
+        </div>
+      </div>
+
+      <!-- PDF Project -->
+      <div class="portfolio-box">
+        <img src="https://via.placeholder.com/400x300/0a0e27/ff006e?text=Project+Report" alt="PDF Preview" class="portfolio-img" />
+        <div class="portfolio-layer">
+          <h4>Project Report</h4>
+          <p>Download the full project report document.</p>
+          <a href="#" onclick="alert('Download report'); return false;">
+            <i class="bx bx-download"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Blender File -->
+      <div class="portfolio-box">
+        <img src="https://via.placeholder.com/400x300/0a0e27/8338ec?text=Blender+File" alt="Blender File Preview" class="portfolio-img" />
+        <div class="portfolio-layer">
+          <h4>Blender File</h4>
+          <p>Download the original .blend file from GitHub.</p>
+          <a href="#" onclick="alert('Download .blend file'); return false;">
+            <i class="bx bxl-blender"></i>
+          </a>
+        </div>
+      </div>
+
     </div>
   </section>
-  
+
   <section id="contact" class="fade-in">
     <h2 class="section-title">Let's Connect</h2>
     <p class="section-subtitle">I'd love to hear from you!</p>
@@ -719,13 +656,6 @@
     }, observerOptions);
     
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    
-    // Form submission
-    document.querySelector('.contact-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Thank you for your message! I\'ll get back to you soon. 🚀');
-      e.target.reset();
-    });
     
     // Dynamic background on mouse move
     document.addEventListener('mousemove', (e) => {
