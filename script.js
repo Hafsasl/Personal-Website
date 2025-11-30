@@ -48,8 +48,17 @@ class ThreeViewer {
     this.isDragging = false;
     this.previousMousePosition = { x: 0, y: 0 };
     this.model = null;
+    this.animationType = this.getAnimationType(modelPath);
+    this.time = 0;
     
     this.init();
+  }
+  
+  getAnimationType(path) {
+    if (path.includes('scene.glb')) return 'shapes';
+    if (path.includes('Drone1.glb')) return 'drone';
+    if (path.includes('t1.glb')) return 'dining';
+    return 'default';
   }
   
   init() {
@@ -60,9 +69,19 @@ class ThreeViewer {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x0a0e27);
 
-    // Camera
+    // Camera - adjust based on model type
     this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    this.camera.position.set(0, 2, 5);
+    
+    // Set camera position based on model type
+    if (this.animationType === 'dining') {
+      this.camera.position.set(0, 4, 12); // Much further back for dining room
+    } else if (this.animationType === 'drone') {
+      this.camera.position.set(0, 0, 6); // Further back to see full drone
+    } else if (this.animationType === 'shapes') {
+      this.camera.position.set(0, 0, 6); // Further back to see all shapes
+    } else {
+      this.camera.position.set(0, 2, 5);
+    }
     this.camera.lookAt(0, 0, 0);
 
     // Renderer
@@ -117,8 +136,20 @@ class ThreeViewer {
         
         this.model.position.sub(center);
         
+        // Adjust scale based on model type
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 3 / maxDim;
+        let scale;
+        
+        if (this.animationType === 'dining') {
+          scale = 1.8 / maxDim; // Much smaller scale for dining room
+        } else if (this.animationType === 'drone') {
+          scale = 2.5 / maxDim; // Adjusted for drone visibility
+        } else if (this.animationType === 'shapes') {
+          scale = 2.5 / maxDim; // Adjusted for shapes visibility
+        } else {
+          scale = 3 / maxDim;
+        }
+        
         this.model.scale.setScalar(scale);
 
         // Enable shadows
@@ -178,16 +209,40 @@ class ThreeViewer {
     this.canvas.addEventListener('wheel', (e) => {
       e.preventDefault();
       this.camera.position.z += e.deltaY * 0.005;
-      this.camera.position.z = Math.max(2, Math.min(10, this.camera.position.z));
+      this.camera.position.z = Math.max(2, Math.min(15, this.camera.position.z));
     }, { passive: false });
   }
 
   animate() {
     requestAnimationFrame(() => this.animate());
+    
+    this.time += 0.016; // Approximate 60fps
 
-    // Auto-rotate when not dragging
+    // Apply different animations based on model type
     if (!this.isDragging && this.model) {
-      this.model.rotation.y += 0.003;
+      if (this.animationType === 'shapes') {
+        // Smooth rotation AND position movement for shapes
+        this.model.rotation.y += 0.008;
+        this.model.rotation.x += 0.004;
+        // Add gentle floating movement
+        this.model.position.y = Math.sin(this.time * 1.5) * 0.2;
+        this.model.position.x = Math.cos(this.time * 0.8) * 0.3;
+      } else if (this.animationType === 'drone') {
+        // Hovering/flying animation for drone
+        this.model.rotation.y += 0.008; // Rotation
+        // Bobbing up and down
+        this.model.position.y = Math.sin(this.time * 2) * 0.4;
+        // Slight side to side movement
+        this.model.position.x = Math.cos(this.time * 1.2) * 0.2;
+        // Slight tilt forward/backward
+        this.model.rotation.x = Math.sin(this.time * 1.5) * 0.08;
+      } else if (this.animationType === 'dining') {
+        // Very slow rotation for dining room to show all angles
+        this.model.rotation.y += 0.003;
+      } else {
+        // Default rotation
+        this.model.rotation.y += 0.003;
+      }
     }
 
     this.renderer.render(this.scene, this.camera);
@@ -202,8 +257,6 @@ document.querySelectorAll('.three-viewer').forEach(canvas => {
 
 /* FULLSCREEN MODAL VIEWER */
 let modalViewer = null;
-let autoRotate = true;
-let wireframeMode = false;
 
 class ModalThreeViewer extends ThreeViewer {
   constructor(canvas, modelPath) {
@@ -214,10 +267,26 @@ class ModalThreeViewer extends ThreeViewer {
 
   animate() {
     requestAnimationFrame(() => this.animate());
+    
+    this.time += 0.016;
 
-    // Auto-rotate when not dragging and autoRotate is enabled
-    if (!this.isDragging && this.model && this.autoRotate) {
-      this.model.rotation.y += 0.005;
+    // Apply animations even in modal
+    if (!this.isDragging && this.model) {
+      if (this.autoRotate) {
+        if (this.animationType === 'shapes') {
+          this.model.rotation.y += 0.008;
+          this.model.rotation.x += 0.004;
+          this.model.position.y = Math.sin(this.time * 1.5) * 0.2;
+          this.model.position.x = Math.cos(this.time * 0.8) * 0.3;
+        } else if (this.animationType === 'drone') {
+          this.model.rotation.y += 0.008;
+          this.model.position.y = Math.sin(this.time * 2) * 0.4;
+          this.model.position.x = Math.cos(this.time * 1.2) * 0.2;
+          this.model.rotation.x = Math.sin(this.time * 1.5) * 0.08;
+        } else {
+          this.model.rotation.y += 0.005;
+        }
+      }
     }
 
     this.renderer.render(this.scene, this.camera);
@@ -241,10 +310,20 @@ class ModalThreeViewer extends ThreeViewer {
   }
 
   resetView() {
-    this.camera.position.set(0, 2, 5);
+    // Reset camera based on model type
+    if (this.animationType === 'dining') {
+      this.camera.position.set(0, 4, 12);
+    } else if (this.animationType === 'drone') {
+      this.camera.position.set(0, 0, 6);
+    } else if (this.animationType === 'shapes') {
+      this.camera.position.set(0, 0, 6);
+    } else {
+      this.camera.position.set(0, 2, 5);
+    }
     this.camera.lookAt(0, 0, 0);
     if (this.model) {
       this.model.rotation.set(0, 0, 0);
+      this.model.position.set(0, 0, 0);
     }
   }
 
