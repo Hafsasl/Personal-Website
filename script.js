@@ -161,21 +161,135 @@ class ThreeViewer {
         });
 
         this.scene.add(this.model);
+        console.log(`✅ Successfully loaded: ${this.modelPath}`);
       },
       (progress) => {
-        console.log(`Loading ${this.modelPath}: ${(progress.loaded / progress.total * 100).toFixed(0)}%`);
+        const percent = (progress.loaded / progress.total * 100).toFixed(0);
+        console.log(`Loading ${this.modelPath}: ${percent}%`);
       },
       (error) => {
-        console.error('Error loading model:', error);
-        // Fallback cube
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshStandardMaterial({ 
-          color: 0x00f5ff,
-          metalness: 0.5,
-          roughness: 0.5
-        });
-        this.model = new THREE.Mesh(geometry, material);
-        this.scene.add(this.model);
+        console.error(`❌ Error loading model: ${this.modelPath}`, error);
+        
+        // Create a fallback visual based on model type
+        if (this.animationType === 'drone') {
+          // Create a simple drone shape
+          const group = new THREE.Group();
+          
+          // Body
+          const bodyGeometry = new THREE.BoxGeometry(0.6, 0.2, 0.6);
+          const bodyMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x333333,
+            metalness: 0.7,
+            roughness: 0.3
+          });
+          const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+          group.add(body);
+          
+          // Propellers
+          const propellerGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.05, 32);
+          const propellerMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x00f5ff,
+            metalness: 0.5,
+            roughness: 0.5
+          });
+          
+          const positions = [
+            [0.4, 0.15, 0.4],
+            [-0.4, 0.15, 0.4],
+            [0.4, 0.15, -0.4],
+            [-0.4, 0.15, -0.4]
+          ];
+          
+          positions.forEach(pos => {
+            const propeller = new THREE.Mesh(propellerGeometry, propellerMaterial);
+            propeller.position.set(pos[0], pos[1], pos[2]);
+            group.add(propeller);
+          });
+          
+          this.model = group;
+          this.scene.add(this.model);
+          
+        } else if (this.animationType === 'dining') {
+          // Create a simple dining room scene
+          const group = new THREE.Group();
+          
+          // Table
+          const tableTopGeometry = new THREE.BoxGeometry(2, 0.1, 1.2);
+          const tableTopMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x8B4513,
+            metalness: 0.1,
+            roughness: 0.8
+          });
+          const tableTop = new THREE.Mesh(tableTopGeometry, tableTopMaterial);
+          tableTop.position.y = 0.5;
+          group.add(tableTop);
+          
+          // Table legs
+          const legGeometry = new THREE.BoxGeometry(0.08, 0.5, 0.08);
+          const legMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x654321,
+            metalness: 0.1,
+            roughness: 0.9
+          });
+          
+          const legPositions = [
+            [0.85, 0.25, 0.5],
+            [-0.85, 0.25, 0.5],
+            [0.85, 0.25, -0.5],
+            [-0.85, 0.25, -0.5]
+          ];
+          
+          legPositions.forEach(pos => {
+            const leg = new THREE.Mesh(legGeometry, legMaterial);
+            leg.position.set(pos[0], pos[1], pos[2]);
+            group.add(leg);
+          });
+          
+          // Chairs
+          const chairBackGeometry = new THREE.BoxGeometry(0.4, 0.5, 0.05);
+          const chairSeatGeometry = new THREE.BoxGeometry(0.4, 0.05, 0.4);
+          const chairMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x654321,
+            metalness: 0.1,
+            roughness: 0.9
+          });
+          
+          // Two chairs
+          for (let i = 0; i < 2; i++) {
+            const chair = new THREE.Group();
+            const back = new THREE.Mesh(chairBackGeometry, chairMaterial);
+            back.position.set(0, 0.35, -0.175);
+            const seat = new THREE.Mesh(chairSeatGeometry, chairMaterial);
+            seat.position.set(0, 0.1, 0);
+            chair.add(back);
+            chair.add(seat);
+            
+            if (i === 0) {
+              chair.position.set(0, 0, 0.9);
+            } else {
+              chair.position.set(0, 0, -0.9);
+              chair.rotation.y = Math.PI;
+            }
+            
+            group.add(chair);
+          }
+          
+          this.model = group;
+          this.scene.add(this.model);
+          
+        } else {
+          // Generic fallback cube
+          const geometry = new THREE.BoxGeometry(1, 1, 1);
+          const material = new THREE.MeshStandardMaterial({ 
+            color: 0x00f5ff,
+            metalness: 0.5,
+            roughness: 0.5
+          });
+          this.model = new THREE.Mesh(geometry, material);
+          this.scene.add(this.model);
+        }
+        
+        console.log(`⚠️ Using fallback model for: ${this.modelPath}`);
       }
     );
   }
