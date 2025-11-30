@@ -74,11 +74,11 @@ class ThreeViewer {
     
     // Set camera position based on model type
     if (this.animationType === 'dining') {
-      this.camera.position.set(0, 4, 12); // Much further back for dining room
+      this.camera.position.set(0, 4, 12); // Far back for dining room
     } else if (this.animationType === 'drone') {
-      this.camera.position.set(0, 0, 6); // Further back to see full drone
+      this.camera.position.set(0, 0, 6); // Closer to see drone
     } else if (this.animationType === 'shapes') {
-      this.camera.position.set(0, 0, 6); // Further back to see all shapes
+      this.camera.position.set(0, 0, 6); // Closer to see shapes
     } else {
       this.camera.position.set(0, 2, 5);
     }
@@ -141,11 +141,11 @@ class ThreeViewer {
         let scale;
         
         if (this.animationType === 'dining') {
-          scale = 1.8 / maxDim; // Much smaller scale for dining room
+          scale = 1.8 / maxDim; // Smaller for dining room
         } else if (this.animationType === 'drone') {
-          scale = 2.5 / maxDim; // Adjusted for drone visibility
+          scale = 2.5 / maxDim; // Good size for drone
         } else if (this.animationType === 'shapes') {
-          scale = 2.5 / maxDim; // Adjusted for shapes visibility
+          scale = 2.5 / maxDim; // Good size for shapes
         } else {
           scale = 3 / maxDim;
         }
@@ -161,135 +161,22 @@ class ThreeViewer {
         });
 
         this.scene.add(this.model);
-        console.log(`✅ Successfully loaded: ${this.modelPath}`);
+        console.log(`✅ Loaded: ${this.modelPath}`);
       },
       (progress) => {
-        const percent = (progress.loaded / progress.total * 100).toFixed(0);
-        console.log(`Loading ${this.modelPath}: ${percent}%`);
+        console.log(`Loading ${this.modelPath}: ${(progress.loaded / progress.total * 100).toFixed(0)}%`);
       },
       (error) => {
-        console.error(`❌ Error loading model: ${this.modelPath}`, error);
-        
-        // Create a fallback visual based on model type
-        if (this.animationType === 'drone') {
-          // Create a simple drone shape
-          const group = new THREE.Group();
-          
-          // Body
-          const bodyGeometry = new THREE.BoxGeometry(0.6, 0.2, 0.6);
-          const bodyMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x333333,
-            metalness: 0.7,
-            roughness: 0.3
-          });
-          const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-          group.add(body);
-          
-          // Propellers
-          const propellerGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.05, 32);
-          const propellerMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x00f5ff,
-            metalness: 0.5,
-            roughness: 0.5
-          });
-          
-          const positions = [
-            [0.4, 0.15, 0.4],
-            [-0.4, 0.15, 0.4],
-            [0.4, 0.15, -0.4],
-            [-0.4, 0.15, -0.4]
-          ];
-          
-          positions.forEach(pos => {
-            const propeller = new THREE.Mesh(propellerGeometry, propellerMaterial);
-            propeller.position.set(pos[0], pos[1], pos[2]);
-            group.add(propeller);
-          });
-          
-          this.model = group;
-          this.scene.add(this.model);
-          
-        } else if (this.animationType === 'dining') {
-          // Create a simple dining room scene
-          const group = new THREE.Group();
-          
-          // Table
-          const tableTopGeometry = new THREE.BoxGeometry(2, 0.1, 1.2);
-          const tableTopMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x8B4513,
-            metalness: 0.1,
-            roughness: 0.8
-          });
-          const tableTop = new THREE.Mesh(tableTopGeometry, tableTopMaterial);
-          tableTop.position.y = 0.5;
-          group.add(tableTop);
-          
-          // Table legs
-          const legGeometry = new THREE.BoxGeometry(0.08, 0.5, 0.08);
-          const legMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x654321,
-            metalness: 0.1,
-            roughness: 0.9
-          });
-          
-          const legPositions = [
-            [0.85, 0.25, 0.5],
-            [-0.85, 0.25, 0.5],
-            [0.85, 0.25, -0.5],
-            [-0.85, 0.25, -0.5]
-          ];
-          
-          legPositions.forEach(pos => {
-            const leg = new THREE.Mesh(legGeometry, legMaterial);
-            leg.position.set(pos[0], pos[1], pos[2]);
-            group.add(leg);
-          });
-          
-          // Chairs
-          const chairBackGeometry = new THREE.BoxGeometry(0.4, 0.5, 0.05);
-          const chairSeatGeometry = new THREE.BoxGeometry(0.4, 0.05, 0.4);
-          const chairMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x654321,
-            metalness: 0.1,
-            roughness: 0.9
-          });
-          
-          // Two chairs
-          for (let i = 0; i < 2; i++) {
-            const chair = new THREE.Group();
-            const back = new THREE.Mesh(chairBackGeometry, chairMaterial);
-            back.position.set(0, 0.35, -0.175);
-            const seat = new THREE.Mesh(chairSeatGeometry, chairMaterial);
-            seat.position.set(0, 0.1, 0);
-            chair.add(back);
-            chair.add(seat);
-            
-            if (i === 0) {
-              chair.position.set(0, 0, 0.9);
-            } else {
-              chair.position.set(0, 0, -0.9);
-              chair.rotation.y = Math.PI;
-            }
-            
-            group.add(chair);
-          }
-          
-          this.model = group;
-          this.scene.add(this.model);
-          
-        } else {
-          // Generic fallback cube
-          const geometry = new THREE.BoxGeometry(1, 1, 1);
-          const material = new THREE.MeshStandardMaterial({ 
-            color: 0x00f5ff,
-            metalness: 0.5,
-            roughness: 0.5
-          });
-          this.model = new THREE.Mesh(geometry, material);
-          this.scene.add(this.model);
-        }
-        
-        console.log(`⚠️ Using fallback model for: ${this.modelPath}`);
+        console.error(`❌ Error: ${this.modelPath}`, error);
+        // Fallback cube
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshStandardMaterial({ 
+          color: 0x00f5ff,
+          metalness: 0.5,
+          roughness: 0.5
+        });
+        this.model = new THREE.Mesh(geometry, material);
+        this.scene.add(this.model);
       }
     );
   }
@@ -330,31 +217,32 @@ class ThreeViewer {
   animate() {
     requestAnimationFrame(() => this.animate());
     
-    this.time += 0.016; // Approximate 60fps
+    this.time += 0.016; // ~60fps
 
-    // Apply different animations based on model type
+    // Apply animations based on model type
     if (!this.isDragging && this.model) {
       if (this.animationType === 'shapes') {
-        // Smooth rotation AND position movement for shapes
+        // Shapes: Rotate AND move around
         this.model.rotation.y += 0.008;
         this.model.rotation.x += 0.004;
-        // Add gentle floating movement
+        // Float up/down
         this.model.position.y = Math.sin(this.time * 1.5) * 0.2;
+        // Drift side to side
         this.model.position.x = Math.cos(this.time * 0.8) * 0.3;
       } else if (this.animationType === 'drone') {
-        // Hovering/flying animation for drone
-        this.model.rotation.y += 0.008; // Rotation
-        // Bobbing up and down
+        // Drone: Flying animation
+        this.model.rotation.y += 0.008;
+        // Bob up/down
         this.model.position.y = Math.sin(this.time * 2) * 0.4;
-        // Slight side to side movement
+        // Sway side to side
         this.model.position.x = Math.cos(this.time * 1.2) * 0.2;
-        // Slight tilt forward/backward
+        // Tilt
         this.model.rotation.x = Math.sin(this.time * 1.5) * 0.08;
       } else if (this.animationType === 'dining') {
-        // Very slow rotation for dining room to show all angles
+        // Dining: Slow rotation
         this.model.rotation.y += 0.003;
       } else {
-        // Default rotation
+        // Default: Simple rotation
         this.model.rotation.y += 0.003;
       }
     }
@@ -384,7 +272,7 @@ class ModalThreeViewer extends ThreeViewer {
     
     this.time += 0.016;
 
-    // Apply animations even in modal
+    // Apply animations in modal
     if (!this.isDragging && this.model) {
       if (this.autoRotate) {
         if (this.animationType === 'shapes') {
@@ -424,7 +312,7 @@ class ModalThreeViewer extends ThreeViewer {
   }
 
   resetView() {
-    // Reset camera based on model type
+    // Reset based on model type
     if (this.animationType === 'dining') {
       this.camera.position.set(0, 4, 12);
     } else if (this.animationType === 'drone') {
@@ -442,7 +330,6 @@ class ModalThreeViewer extends ThreeViewer {
   }
 
   dispose() {
-    // Clean up resources
     if (this.model) {
       this.scene.remove(this.model);
     }
@@ -469,7 +356,6 @@ function openModal(modelPath, title) {
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
 
-  // Create new viewer
   if (modalViewer) {
     modalViewer.dispose();
   }
