@@ -356,6 +356,11 @@ section {
   margin-bottom: 15px;
 }
 
+.portfolio-actions {
+  display: flex;
+  gap: 10px;
+}
+
 .portfolio-layer a {
   display: inline-flex;
   align-items: center;
@@ -374,6 +379,108 @@ section {
 .portfolio-layer a:hover {
   background: var(--secondary);
   transform: scale(1.1);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  max-width: 1400px;
+  background: var(--dark);
+  border-radius: 20px;
+  border: 2px solid var(--primary);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 20px 30px;
+  background: rgba(0, 245, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 245, 255, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--light);
+  font-size: 2rem;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.modal-close:hover {
+  background: var(--secondary);
+  transform: rotate(90deg);
+}
+
+.modal-viewer {
+  flex: 1;
+  width: 100%;
+  cursor: grab;
+}
+
+.modal-viewer:active {
+  cursor: grabbing;
+}
+
+.modal-controls {
+  padding: 15px 30px;
+  background: rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.control-btn {
+  padding: 10px 20px;
+  background: rgba(0, 245, 255, 0.1);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.control-btn:hover {
+  background: var(--primary);
+  color: var(--dark);
 }
 
 /* Contact */
@@ -433,6 +540,21 @@ footer {
   .about-content { grid-template-columns: 1fr; }
   .portfolio-container { grid-template-columns: 1fr; }
   section { padding: 60px 20px; }
+  
+  .modal-content {
+    width: 95%;
+    height: 95%;
+  }
+  
+  .modal-controls {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .control-btn {
+    font-size: 0.8rem;
+    padding: 8px 15px;
+  }
 }
 
 /* Scroll Animation */
