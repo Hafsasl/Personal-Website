@@ -141,11 +141,11 @@ class ThreeViewer {
         let scale;
         
         if (this.animationType === 'dining') {
-          scale = 1.8 / maxDim; // Smaller for dining room
+          scale = 2.2 / maxDim; // Bigger for dining room
         } else if (this.animationType === 'drone') {
-          scale = 2.5 / maxDim; // Good size for drone
+          scale = 3 / maxDim; // Bigger for drone
         } else if (this.animationType === 'shapes') {
-          scale = 2.5 / maxDim; // Good size for shapes
+          scale = 3 / maxDim; // Bigger for shapes
         } else {
           scale = 3 / maxDim;
         }
@@ -314,11 +314,11 @@ class ModalThreeViewer extends ThreeViewer {
   resetView() {
     // Reset based on model type
     if (this.animationType === 'dining') {
-      this.camera.position.set(0, 4, 12);
+      this.camera.position.set(0, 3, 8);
     } else if (this.animationType === 'drone') {
-      this.camera.position.set(0, 0, 6);
+      this.camera.position.set(0, 0, 5);
     } else if (this.animationType === 'shapes') {
-      this.camera.position.set(0, 0, 6);
+      this.camera.position.set(0, 0, 5);
     } else {
       this.camera.position.set(0, 2, 5);
     }
