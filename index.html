@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,8 +50,8 @@
     <p class="section-subtitle">Passionate creator blending technology with creativity</p>
     <div class="about-content">
       <div class="about-text">
-        <p>I'm a forward-thinking student...</p>
-        <p>Whether I'm coding...</p>
+        <p>I'm a forward-thinking student with a passion for merging creative design with cutting-edge technology. My journey is defined by curiosity, innovation, and a relentless drive to create meaningful digital experiences.</p>
+        <p>Whether I'm coding an interactive web application, designing user interfaces, or exploring the latest in AI and machine learning, I approach every challenge with enthusiasm and a problem-solving mindset.</p>
         <div class="skills">
           <span class="skill-tag">Web Development</span>
           <span class="skill-tag">UI/UX Design</span>
@@ -72,48 +71,90 @@
     <h2 class="heading">Latest <span>Blender Projects</span></h2>
 
     <div class="portfolio-container">
+      <!-- tp 3 -->
       <div class="portfolio-box">
         <canvas class="three-viewer" data-model="scene.glb"></canvas>
         <div class="portfolio-layer">
-          <h4>3D diffrent shape animation </h4>
+          <h4>3D diffrent shape animation</h4>
           <p>Interactive 3D diffrent shape animation.</p>
-          <a href="scene.blend" download><i class="bx bx-download"></i></a>
+          <div class="portfolio-actions">
+            <a href="#" class="view-fullscreen" data-model="scene.glb" data-title="3D diffrent shape animation"><i class="bx bx-show"></i></a>
+            <a href="scene.blend" download><i class="bx bx-download"></i></a>
+          </div>
         </div>
       </div>
+
+      <!-- Drone -->
       <div class="portfolio-box">
         <canvas class="three-viewer" data-model="Drone1.glb"></canvas>
         <div class="portfolio-layer">
           <h4>3D Quadcopter Drone</h4>
           <p>Interactive 3D Quadcopter Drone model.</p>
-          <a href="Drone1.blend" download><i class="bx bx-download"></i></a>
+          <div class="portfolio-actions">
+            <a href="#" class="view-fullscreen" data-model="Drone1.glb" data-title="3D Quadcopter Drone"><i class="bx bx-show"></i></a>
+            <a href="Drone1.blend" download><i class="bx bx-download"></i></a>
+          </div>
         </div>
       </div>
+
+      <!-- EVEE -->
       <div class="portfolio-box">
         <canvas class="three-viewer" data-model="EVE.glb"></canvas>
         <div class="portfolio-layer">
           <h4>3D EVEE Robot</h4>
           <p>Interactive 3D EVEE Robot model.</p>
-          <a href="EVE.blend" download><i class="bx bx-download"></i></a>
+          <div class="portfolio-actions">
+            <a href="#" class="view-fullscreen" data-model="EVE.glb" data-title="3D EVEE Robot"><i class="bx bx-show"></i></a>
+            <a href="EVE.blend" download><i class="bx bx-download"></i></a>
+          </div>
         </div>
       </div>
+
+      <!-- Dining Room -->
       <div class="portfolio-box">
         <canvas class="three-viewer" data-model="t1.glb"></canvas>
         <div class="portfolio-layer">
           <h4>3D Dining Room</h4>
           <p>Interactive 3D Dining Room scene.</p>
-          <a href="t1.blend" download><i class="bx bx-download"></i></a>
+          <div class="portfolio-actions">
+            <a href="#" class="view-fullscreen" data-model="t1.glb" data-title="3D Dining Room"><i class="bx bx-show"></i></a>
+            <a href="t1.blend" download><i class="bx bx-download"></i></a>
+          </div>
         </div>
       </div>
+
+      <!-- unv -->
       <div class="portfolio-box">
         <canvas class="three-viewer" data-model="https://github.com/Hafsasl/Personal-Website/releases/download/v1.0/uni_gen5.glb"></canvas>
         <div class="portfolio-layer">
           <h4>3D univ_gen5</h4>
           <p>Interactive 3D univ_gen5.</p>
-          <a href="https://github.com/Hafsasl/Personal-Website/releases/download/v1.0/uni_gen5.blend" download><i class="bx bx-download"></i></a>
+          <div class="portfolio-actions">
+            <a href="#" class="view-fullscreen" data-model="https://github.com/Hafsasl/Personal-Website/releases/download/v1.0/uni_gen5.glb" data-title="3D univ_gen5"><i class="bx bx-show"></i></a>
+            <a href="https://github.com/Hafsasl/Personal-Website/releases/download/v1.0/uni_gen5.blend" download><i class="bx bx-download"></i></a>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Fullscreen Modal -->
+  <div class="modal-overlay" id="modelModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">3D Model Viewer</h3>
+        <button class="modal-close" id="closeModal">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      <canvas class="modal-viewer" id="modalCanvas"></canvas>
+      <div class="modal-controls">
+        <button class="control-btn" id="resetView">Reset View</button>
+        <button class="control-btn" id="toggleRotation">Stop Rotation</button>
+        <button class="control-btn" id="toggleWireframe">Wireframe</button>
+      </div>
+    </div>
+  </div>
 
   <section id="contact" class="fade-in">
     <h2 class="section-title">Let's Connect</h2>
