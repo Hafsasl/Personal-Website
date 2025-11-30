@@ -74,11 +74,11 @@ class ThreeViewer {
     
     // Set camera position based on model type
     if (this.animationType === 'dining') {
-      this.camera.position.set(0, 4, 12); // Far back for dining room
+      this.camera.position.set(0, 3, 8); // Zoomed in for dining room
     } else if (this.animationType === 'drone') {
-      this.camera.position.set(0, 0, 6); // Closer to see drone
+      this.camera.position.set(0, 0, 5); // Zoomed in for drone
     } else if (this.animationType === 'shapes') {
-      this.camera.position.set(0, 0, 6); // Closer to see shapes
+      this.camera.position.set(0, 0, 5); // Zoomed in for shapes
     } else {
       this.camera.position.set(0, 2, 5);
     }
